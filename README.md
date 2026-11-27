@@ -11,9 +11,9 @@ system e para os downloads, e guarda os planos do que vem depois.
 
 | Projeto | O que é | Links |
 |---|---|---|
-| [acerola-reader](https://github.com/vinicius-gpl/acerola-reader) | Leitor de quadrinhos e mangás para desktop e Android, com sincronização P2P entre os seus dispositivos | [docs](https://docs.reader.acerola.app) · [downloads](https://github.com/vinicius-gpl/acerola-reader/releases) |
-| [acerola-sync](https://github.com/vinicius-gpl/acerola-sync) | Extensão que marca sozinha o que você assiste e lê na sua lista do AniList, com o seu próprio server espelhando tudo | [api](https://api.sync.acerola.app/health) · docs (em breve) |
-| [acerola-brand](https://github.com/vinicius-gpl/acerola-brand) | A marca e o padrão de projeto: cores, tipografia, ícones, mascote, componentes e regras | [brand book](https://brand.acerola.app) · [arquivos](https://cdn.acerola.app) · storybook (em breve) |
+| [acerola-reader](https://github.com/acerola-labs/acerola-reader) | Leitor de quadrinhos e mangás para desktop e Android, com sincronização P2P entre os seus dispositivos | [docs](https://docs.reader.acerola.app) · [downloads](https://github.com/acerola-labs/acerola-reader/releases) |
+| [acerola-sync](https://github.com/acerola-labs/acerola-sync) | Extensão que marca sozinha o que você assiste e lê na sua lista do AniList, com o seu próprio server espelhando tudo | [api](https://api.sync.acerola.app/health) · docs (em breve) |
+| [acerola-brand](https://github.com/acerola-labs/acerola-brand) | A marca e o padrão de projeto: cores, tipografia, ícones, mascote, componentes e regras | [brand book](https://brand.acerola.app) · [arquivos](https://cdn.acerola.app) · storybook (em breve) |
 
 Em breve, tudo isso reunido em acerola.app, com um link para cada documentação, o Storybook único do
 design system (storybook.acerola.app) e os downloads.
