@@ -1,0 +1,13 @@
+# Dono padrão: qualquer arquivo sem regra mais específica abaixo cai aqui.
+*                     @vinicius-gpl
+
+# Site (o hub em acerola.app) e o deploy
+/acerola/             @vinicius-gpl
+/.komodo/             @vinicius-gpl
+
+# Padrão: skills e scripts
+/.claude/             @vinicius-gpl
+/scripts/             @vinicius-gpl
+
+# CI/CD e configuração do repositório
+/.github/             @vinicius-gpl
