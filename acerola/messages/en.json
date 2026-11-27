@@ -1,0 +1,237 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"site": {
+		"title": "Acerola",
+		"description": "A family of apps to look after your media library: read, watch and track what you consume, with the data on your machine or your own server.",
+		"footer": "Open source under MPL-2.0 · acerola-brand standard"
+	},
+	"nav": {
+		"home": "Acerola, home",
+		"sections": "Sections",
+		"apps": "Apps",
+		"principles": "Principles",
+		"ideas": "Ideas",
+		"github": "Acerola on GitHub",
+		"language": "Ler em português",
+		"theme": {
+			"light": "Use light theme",
+			"dark": "Use dark theme"
+		}
+	},
+	"hero": {
+		"title": "Your media, your way",
+		"lead": "Read, watch and track what you consume, with the data on your machine or your own server. No cloud of ours, no account.",
+		"apps": "See the apps",
+		"github": "Code on GitHub",
+		"scroll": "Scroll",
+		"tape": {
+			"content": {
+				"manga": "Manga",
+				"comics": "Comics",
+				"anime": "Anime",
+				"chapter": "One more chapter",
+				"episode": "One more episode",
+				"list": "List up to date"
+			},
+			"app": {
+				"selfhost": "Self-host",
+				"p2p": "Peer to peer",
+				"local": "Your data",
+				"open": "Open source",
+				"noaccount": "No account",
+				"platforms": "Desktop and Android"
+			}
+		},
+		"stickers": {
+			"selfhost": "Self-host",
+			"p2p": "P2P",
+			"open": "Open source"
+		}
+	},
+	"home": {
+		"apps": {
+			"eyebrow": "Apps",
+			"title": "One app for each part",
+			"lead": "Each app lives in its own repository, with its own docs and downloads. All of them follow the same brand and the same standard.",
+			"open": "See {name}"
+		},
+		"principles": {
+			"eyebrow": "Principles",
+			"title": "What holds in every app",
+			"lead": "The direction every Acerola project follows, from the first commit to the deploy.",
+			"selfhost": {
+				"title": "Self-host first",
+				"text": "Each app runs on your machine or your server. The sync server, the reader relay and the sites come up with a compose file."
+			},
+			"data": {
+				"title": "Your data stays with you",
+				"text": "Library, progress and history live on your devices. When they need to travel, they go straight between them."
+			},
+			"p2p": {
+				"title": "P2P or local network",
+				"text": "Devices find each other and sync over the local network or P2P (iroh), with a relay only to get through NAT."
+			},
+			"brand": {
+				"title": "One brand, one standard",
+				"text": "Every app follows the same design system and the same project standard, from acerola-brand."
+			},
+			"open": {
+				"title": "Open source",
+				"text": "Everything under MPL-2.0: read it, run it and contribute."
+			}
+		},
+		"ideas": {
+			"eyebrow": "Ideas",
+			"title": "What comes next",
+			"lead": "Nothing here is a promise: it is the direction the projects should take.",
+			"tmdb": {
+				"title": "Sync beyond anime and manga",
+				"text": "Track movies and series through TMDB and maybe Letterboxd. TMDB has an open API; Letterboxd doesn't, so it may be list import."
+			},
+			"video": {
+				"title": "acerola-video",
+				"text": "The reader's counterpart for video: your own library, synced progress and the same self-host and P2P principles."
+			},
+			"platforms": {
+				"title": "Reader and video on every platform",
+				"text": "Web, desktop and Android. The desktop becomes the library's agent; web-only users get a light agent, and everything talks over P2P or the local network."
+			},
+			"docs": {
+				"title": "Docs for every project",
+				"text": "Each project with its own documentation, linked from here, and the design system in a single Storybook."
+			}
+		}
+	},
+	"apps": {
+		"reader": {
+			"name": "Acerola Reader",
+			"kind": "Desktop and Android",
+			"tagline": "Local-first comic and manga reader.",
+			"lead": "Your comic and manga library on desktop and Android, synced straight between your own devices over P2P. No cloud, no account and no server to trust.",
+			"features": {
+				"library": "Local CBZ and CBR library, with covers, chapters and reading history.",
+				"sync": "Progress synced between desktop and Android, straight between the devices.",
+				"relay": "Off the same network, a relay gets through NAT with no open ports.",
+				"open": "Desktop in Tauri + Svelte, Android in Kotlin + Compose, P2P in Rust."
+			}
+		},
+		"sync": {
+			"name": "Acerola Sync",
+			"kind": "Extension and server",
+			"tagline": "Your AniList list, ticked off on its own.",
+			"lead": "A browser extension recognizes the open episode or chapter, and a Rust server of your own mirrors your AniList list and keeps everything in sync, anime and manga.",
+			"features": {
+				"tracking": "Marks the chapter after a few seconds on the page and the episode once the video passes 85%.",
+				"sites": "Sakura Mangás, MangaDex, Crunchyroll, Netflix and any site you add by its URL.",
+				"mirror": "Screens read from the Postgres mirror; AniList is only called to write and sync.",
+				"notify": "New episode alerts, the title's page and where to watch or read."
+			}
+		},
+		"brand": {
+			"name": "Acerola Brand",
+			"kind": "Design system and standard",
+			"tagline": "The brand and the standard of every Acerola project.",
+			"lead": "Colors, typography, components, icon and mascot, published as a brand book and as files, plus the project standard every Acerola repository follows.",
+			"features": {
+				"tokens": "Color, shape and shadow tokens for Tailwind, plain CSS and Android.",
+				"components": ".ac-* components, app screens, error screen and a sample site.",
+				"standard": "Project standard: structure, i18n, git, hooks, workflows and license.",
+				"kit": "A kit to start a project, with the skills and the checkers."
+			}
+		}
+	},
+	"app": {
+		"back": "All apps",
+		"features": "What it does",
+		"get": "Get it",
+		"more": "Docs and code",
+		"links": {
+			"docs": {
+				"title": "Documentation",
+				"text": "How to install, use and contribute."
+			},
+			"github": {
+				"title": "Code on GitHub",
+				"text": "MPL-2.0, open to read and contribute."
+			},
+			"releases": {
+				"title": "GitHub Releases",
+				"text": "Every version, with its notes."
+			},
+			"apk": {
+				"title": "Android (APK)",
+				"text": "Signed APK of the latest version."
+			},
+			"store": {
+				"title": "Microsoft Store",
+				"text": "Windows desktop, signed by the store."
+			},
+			"extension": {
+				"title": "Extension",
+				"text": "Chrome and Firefox, on the GitHub Releases."
+			},
+			"site": {
+				"title": "Brand book",
+				"text": "Colors, typography, components and the standard."
+			},
+			"kit": {
+				"title": "Brand downloads",
+				"text": "Project kit, logos, icons, fonts and CSS."
+			}
+		}
+	},
+	"llms": {
+		"apps": "Apps",
+		"locales": "Languages"
+	},
+	"error": {
+		"eyebrow": "Error {status}",
+		"eyebrowOffline": "No connection",
+		"sticker": "Oops!",
+		"actions": {
+			"home": "Go to the start",
+			"back": "Go back",
+			"retry": "Try again"
+		},
+		"badRequest": {
+			"title": "Something in the request was off",
+			"text": "The address or the data sent came in a shape we don't understand. Check it and start over from the home page."
+		},
+		"unauthorized": {
+			"title": "Sign in to continue",
+			"text": "This page is only for signed-in accounts. Sign in and come back here."
+		},
+		"forbidden": {
+			"title": "This page isn't for you",
+			"text": "Your account has no access to this. If you think it should, talk to whoever runs the app."
+		},
+		"notFound": {
+			"title": "Page not found",
+			"text": "The address may have changed or never existed. Go back to the start and take it from there."
+		},
+		"timeout": {
+			"title": "That took too long",
+			"text": "The answer didn't arrive in time. Try again in a moment."
+		},
+		"tooMany": {
+			"title": "Easy, too many requests",
+			"text": "Too many requests in a short time. Wait a minute and try again."
+		},
+		"server": {
+			"title": "Something broke on our side",
+			"text": "The error was ours, not yours. Try again; if it keeps happening, come back later."
+		},
+		"unavailable": {
+			"title": "Down for a moment",
+			"text": "The service is under maintenance or overloaded. Try again in a few minutes."
+		},
+		"offline": {
+			"title": "You're offline",
+			"text": "Check your Wi-Fi or mobile data and try again."
+		},
+		"unknown": {
+			"title": "Something went wrong",
+			"text": "We're not sure what happened. Try again; if it keeps happening, go back to the start."
+		}
+	}
+}

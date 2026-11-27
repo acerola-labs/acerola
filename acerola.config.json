@@ -1,0 +1,23 @@
+{
+	"project": "acerola",
+	"description": "O hub da marca Acerola em acerola.app: a ideia, os apps, as docs e os downloads de cada um.",
+	"commit": {
+		"scopes": {
+			"site": "acerola/ (o hub em SvelteKit) e o deploy em .komodo/",
+			"repo": "scripts/, lefthook.yml e os arquivos de configuração da raiz",
+			"ci": ".github/",
+			"docs": "docs/ e os .md da raiz",
+			"claude": ".claude/ e CLAUDE.md",
+			"deps": "atualização de dependência"
+		}
+	},
+	"design": {
+		"scan": ["acerola/src"],
+		"extensions": [".svelte", ".ts", ".css", ".html"],
+		"exempt": ["/theme/", "/paraglide/", "\\.test\\.ts$", "\\.d\\.ts$"]
+	},
+	"i18n": {
+		"messages": ["acerola/messages"],
+		"baseLocale": "pt-br"
+	}
+}

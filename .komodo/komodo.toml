@@ -1,0 +1,124 @@
+# Komodo deploy of the hub (acerola/) on the hetzner server, at acerola.app.
+# Names follow <server>_<app>; Swarm completes the services with _<service> (hetzner_acerola_web).
+#
+#   Sync       applies this file (GitHub webhook on push to main).
+#   Repo       clone of main on the hetzner server; Build and Stack read from it.
+#   Build      acerola/.config/docker/dockerfile built ON the hetzner server itself, with the
+#              repository root as context. No registry: the image stays local as
+#              acerola:<short commit>-hetzner.
+#   Stack      .komodo/acerola.compose.yml on the hetzner Swarm; komodo.sh runs the deploy steps
+#              and route.sh publishes acerola.caddy (acerola.app) on the server's Caddy.
+#   Procedure  Pull -> Build -> Deploy, triggered by the GitHub webhook
+#              (/listener/github/procedure/hetzner_acerola/main).
+#   Action     native Swarm rollback to the previous version.
+#
+# A static site: no secrets. The brand files (fonts, icon, mascot) come from cdn.acerola.app.
+
+[[resource_sync]]
+name = "acerola"
+description = "Aplica o deploy do hub do Acerola (.komodo/komodo.toml)"
+tags = ["env:hetzner", "app:acerola"]
+[resource_sync.config]
+git_provider = "github.com"
+repo = "acerola-labs/acerola"
+branch = "main"
+resource_path = [".komodo/komodo.toml"]
+delete = false
+
+[[repo]]
+name = "hetzner_acerola"
+description = "Clone da main do acerola no hetzner"
+tags = ["env:hetzner", "app:acerola"]
+[repo.config]
+server = "hetzner"
+git_provider = "github.com"
+repo = "acerola-labs/acerola"
+branch = "main"
+webhook_enabled = false
+links = ["https://github.com/acerola-labs/acerola/tree/main/acerola"]
+
+[[build]]
+name = "hetzner_acerola"
+description = "Imagem do hub do Acerola, construída no próprio hetzner (sem registry)"
+tags = ["env:hetzner", "app:acerola"]
+[build.config]
+builder = "hetzner"
+linked_repo = "hetzner_acerola"
+webhook_enabled = false
+build_path = "."
+dockerfile_path = "acerola/.config/docker/dockerfile"
+image_name = "acerola"
+image_tag = "hetzner"
+include_latest_tag = false
+include_version_tags = false
+include_commit_tag = true
+build_args = """
+SITE_URL=https://acerola.app
+"""
+labels = """
+org.opencontainers.image.source=https://github.com/acerola-labs/acerola
+acerola.app=acerola
+acerola.server=hetzner
+"""
+links = ["https://acerola.app"]
+
+[[stack]]
+name = "hetzner_acerola"
+description = "Hub do Acerola no Swarm do hetzner"
+tags = ["env:hetzner", "app:acerola"]
+[stack.config]
+swarm = "hetzner"
+project_name = "hetzner_acerola"
+linked_repo = "hetzner_acerola"
+webhook_enabled = false
+run_directory = ".komodo"
+file_paths = ["acerola.compose.yml"]
+extra_args = ["--resolve-image", "never", "--detach=false"]
+links = ["https://acerola.app"]
+pre_deploy.command = "sh komodo.sh pre-deploy acerola hetzner"
+compose_cmd_wrapper_include = ["config", "deploy"]
+compose_cmd_wrapper = "sh komodo.sh deploy acerola hetzner [[COMPOSE_COMMAND]]"
+post_deploy.command = "sh komodo.sh post-deploy acerola hetzner"
+
+[[procedure]]
+name = "hetzner_acerola"
+description = "Publica a main do hub do Acerola no hetzner: Pull, Build e Deploy"
+tags = ["env:hetzner", "app:acerola"]
+[procedure.config]
+webhook_enabled = true
+
+[[procedure.config.stage]]
+name = "Pull"
+executions = [
+  { execution.type = "PullRepo", execution.params.repo = "hetzner_acerola" },
+]
+
+[[procedure.config.stage]]
+name = "Build"
+executions = [
+  { execution.type = "RunBuild", execution.params.build = "hetzner_acerola" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy"
+executions = [
+  { execution.type = "DeployStack", execution.params.stack = "hetzner_acerola" },
+]
+
+[[action]]
+name = "hetzner_acerola_rollback"
+description = "Volta o hub do Acerola para a versão anterior (rollback do Swarm)"
+tags = ["env:hetzner", "app:acerola"]
+[action.config]
+webhook_enabled = false
+file_contents = '''
+const stack = 'hetzner_acerola';
+await komodo.execute_server_terminal(
+  {
+    server: 'hetzner',
+    command: `docker service ls -q --filter label=com.docker.stack.namespace=${stack} | xargs -r -n1 docker service rollback --detach=false`,
+    init: { command: 'sh' },
+  },
+  { onLine: (line) => console.log(line), onFinish: (code) => console.log(`exit ${code}`) },
+);
+'''

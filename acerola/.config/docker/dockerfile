@@ -1,0 +1,29 @@
+# The hub (acerola/): static build with Node, served by Caddy (no Node in the final image).
+# Build context: the repository root (the root .dockerignore trims it), like every Acerola app.
+# In production the Komodo Build makes it on the hetzner server itself (.komodo/komodo.toml); locally:
+#   docker compose -f acerola/.config/docker/compose.yml up --build
+
+# ---------- build ----------
+FROM node:22-alpine AS build
+WORKDIR /repo/acerola
+# Node heap ceiling: the build runs on the same server as the apps and must not take its memory.
+ENV NODE_OPTIONS=--max-old-space-size=768
+
+# Dependencies first: the layer stays cached while the lockfile doesn't change.
+COPY acerola/package.json acerola/package-lock.json acerola/.npmrc ./
+RUN npm ci --no-audit --no-fund
+
+COPY acerola/ /repo/acerola/
+
+# SITE_URL: the public address, for sitemap.xml, llms.txt and hreflang.
+ARG SITE_URL="https://acerola.app"
+ENV SITE_URL=${SITE_URL}
+RUN npm run build
+
+# ---------- serve ----------
+FROM caddy:2-alpine
+COPY acerola/.config/docker/caddyfile /etc/caddy/Caddyfile
+COPY --from=build /repo/acerola/build /srv
+# Port 3000 inside the container, like every project.
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1
