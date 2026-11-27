@@ -3,20 +3,17 @@
 O ponto de entrada de tudo que é Acerola: **[acerola.app](https://acerola.app)**.
 
 Acerola é uma família de apps para quem quer cuidar da própria biblioteca de mídia: ler, assistir e
-acompanhar o que consome, com os dados na própria máquina ou no próprio servidor. Este repositório vai
-ser o hub: a página que explica a ideia, aponta para a documentação de cada projeto, para o design
-system e para os downloads, e guarda os planos do que vem depois.
+acompanhar o que consome, com os dados na própria máquina ou no próprio servidor. Este repositório é
+o hub: a página que explica a ideia, leva a cada app (o que é, os downloads, as docs e o código) e
+guarda os planos do que vem depois.
 
 ## Projetos
 
 | Projeto | O que é | Links |
 |---|---|---|
-| [acerola-reader](https://github.com/vinicius-gpl/acerola-reader) | Leitor de quadrinhos e mangás para desktop e Android, com sincronização P2P entre os seus dispositivos | [docs](https://docs.reader.acerola.app) · [downloads](https://github.com/vinicius-gpl/acerola-reader/releases) |
-| [acerola-sync](https://github.com/vinicius-gpl/acerola-sync) | Extensão que marca sozinha o que você assiste e lê na sua lista do AniList, com o seu próprio server espelhando tudo | [api](https://api.sync.acerola.app/health) · docs (em breve) |
-| [acerola-brand](https://github.com/vinicius-gpl/acerola-brand) | A marca e o padrão de projeto: cores, tipografia, ícones, mascote, componentes e regras | [brand book](https://brand.acerola.app) · [arquivos](https://cdn.acerola.app) · storybook (em breve) |
-
-Em breve, tudo isso reunido em acerola.app, com um link para cada documentação, o Storybook único do
-design system (storybook.acerola.app) e os downloads.
+| [acerola-reader](https://github.com/acerola-labs/acerola-reader) | Leitor de quadrinhos e mangás para desktop e Android, com sincronização P2P entre os seus dispositivos | [docs](https://docs.reader.acerola.app) · [downloads](https://github.com/acerola-labs/acerola-reader/releases) |
+| [acerola-sync](https://github.com/acerola-labs/acerola-sync) | Extensão que marca sozinha o que você assiste e lê na sua lista do AniList, com o seu próprio server espelhando tudo | [docs](https://github.com/acerola-labs/acerola-sync#readme) · [downloads](https://github.com/acerola-labs/acerola-sync/releases) |
+| [acerola-brand](https://github.com/acerola-labs/acerola-brand) | A marca e o padrão de projeto: cores, tipografia, ícones, mascote, componentes e regras | [brand book](https://brand.acerola.app) · [arquivos](https://cdn.acerola.app) |
 
 ## Princípios
 
@@ -46,6 +43,66 @@ Nada aqui é promessa: é a direção que os projetos devem seguir.
   - tudo conversa por **P2P ou pela rede local**, sem servidor central.
 - **Documentação de todos os projetos** ligada a partir daqui, com o design system num Storybook só.
 
+## O site
+
+| Página | O que mostra |
+| --- | --- |
+| `/pt-br/`, `/en/` | a ideia, os apps, os princípios e as ideias |
+| `/pt-br/<app>/`, `/en/<app>/` | cada app: o que faz, como baixar e usar, docs e código |
+
+Cada idioma fica no seu prefixo, com o seu `sitemap.xml` e o seu `llms.txt`; na raiz ficam o
+`robots.txt` e os índices `/sitemap.xml` e `/llms.txt`. Endereço sem prefixo vai para o idioma do
+cookie `acerola-locale`, e o tema segue o cookie `acerola-theme`: os dois valem para todo site em
+`acerola.app`. Fontes, ícone e mascote vêm da CDN da marca (`cdn.acerola.app`).
+
+## Estrutura
+
+```
+acerola/
+├── acerola/                  o site (SvelteKit 3 + Svelte 5 + TypeScript + Tailwind v4 + GSAP)
+│   ├── .config/docker/       imagem com Caddy (dockerfile, caddyfile, compose.yml)
+│   ├── messages/             i18n: pt-br.json · en.json (Paraglide)
+│   ├── paraglide.config.ts   idioma em /pt-br e /en, cookie compartilhado
+│   └── src/
+│       ├── lib/data/apps.ts  os apps e os links de cada um
+│       ├── lib/theme/        tokens do Tailwind (cópia exata do acerola-brand)
+│       └── routes/           /, /[app], sitemap.xml, llms.txt, robots.txt
+├── scripts/                  git/ · design/ · i18n/ (o padrão Acerola)
+├── .claude/                  settings.json (hooks) · skills/acerola-{design,project,git}
+├── .komodo/                  deploy no hetzner pelo Komodo
+├── .github/                  site-tests.yml · templates de issue e PR · CODEOWNERS · dependabot
+├── acerola.config.json       commit.scopes, design e i18n
+└── CLAUDE.md · CONTRIBUTING.md · RELEASE.md · LICENSE · .gitmessage · .editorconfig · lefthook.yml
+```
+
+## Começar
+
+```bash
+node scripts/git/setup-git.mjs     # Git-Flow, template de commit e hooks (precisa do lefthook)
+cd acerola
+npm install
+npm run dev                        # http://localhost:5173
+```
+
+| Comando | Para quê |
+| --- | --- |
+| `npm run check` / `npm run lint` | tipos, Prettier e ESLint |
+| `npm test` | testes (dados dos apps, sitemap, llms.txt, cookies) |
+| `npm run build` | site estático em `build/` |
+| `node scripts/design/check-design.mjs` | confere o design |
+| `node scripts/i18n/check-i18n.mjs` | confere o i18n |
+
+## Publicação
+
+O site roda no servidor hetzner, pelo Komodo ([`.komodo/`](.komodo/)). A cada push na `main` (que
+só acontece no release), o webhook do GitHub dispara a Procedure `hetzner_acerola`: Pull, Build da
+imagem `acerola/.config/docker/dockerfile` no próprio hetzner e Deploy no Swarm. O `route.sh` publica
+o `acerola.caddy` (`acerola.app`, com `www` redirecionando) no Caddy do servidor.
+
+Antes do primeiro deploy: o DNS de `acerola.app` e `www` vira registro **A** para o IP do hetzner
+("DNS only"). No Komodo, a Sync `acerola` (branch `main`, arquivo `.komodo/komodo.toml`) e os dois
+webhooks dela e da Procedure `hetzner_acerola`.
+
 ## Licença
 
-[MPL-2.0](https://www.mozilla.org/MPL/2.0/).
+[MPL-2.0](LICENSE). As fontes da marca, servidas pela CDN, seguem a SIL Open Font License 1.1.

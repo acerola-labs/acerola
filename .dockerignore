@@ -1,0 +1,10 @@
+# Build context of acerola/.config/docker/dockerfile is the app folder only; this trims it when
+# the root is used. Leave out dependencies, local outputs and secrets.
+.git
+**/node_modules
+acerola/.svelte-kit
+acerola/build
+acerola/src/lib/paraglide
+**/.env
+**/.env.*
+!**/.env.example

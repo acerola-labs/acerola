@@ -1,0 +1,14 @@
+# The hub on http://localhost:8080, with the production image.
+#   docker compose -f acerola/.config/docker/compose.yml up --build -d
+services:
+  acerola:
+    build:
+      # The repository root (see the dockerfile).
+      context: ../../..
+      dockerfile: acerola/.config/docker/dockerfile
+      args:
+        SITE_URL: ${SITE_URL:-http://localhost:8080}
+    image: acerola:latest
+    ports:
+      - '8080:3000'
+    restart: unless-stopped

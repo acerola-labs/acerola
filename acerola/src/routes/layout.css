@@ -1,0 +1,39 @@
+@import 'tailwindcss';
+/* Tokens and components: exact copy of the acerola-brand files (src/lib/theme). The fonts come
+ * from the brand CDN through a <link> (fonts.css) in +layout.svelte. */
+@import '../lib/theme/theme.css';
+@import '../lib/theme/components.css';
+
+@layer base {
+	html {
+		@apply overflow-x-clip scroll-smooth;
+		scroll-padding-top: 5rem;
+	}
+
+	body {
+		@apply bg-background font-sans text-foreground antialiased transition-colors duration-300;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-ring;
+	}
+
+	::selection {
+		@apply bg-primary-soft text-foreground;
+	}
+}
+
+/*
+ * Reduced motion applies to everything. It sits outside @layer and uses important on purpose:
+ * it is the reader's accessibility preference, and no style may override it.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0s !important; /* design-allow: accessibility wins */
+		animation-iteration-count: 1 !important; /* design-allow: accessibility wins */
+		transition-duration: 0s !important; /* design-allow: accessibility wins */
+		scroll-behavior: auto !important; /* design-allow: accessibility wins */
+	}
+}
