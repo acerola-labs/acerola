@@ -12,6 +12,7 @@
 #              (/listener/github/procedure/hetzner_acerola/main).
 #   Action     native Swarm rollback to the previous version.
 #
+# Git account acerola-labs (set in Komodo) clones the organization's repository.
 # A static site: no secrets. The brand files (fonts, icon, mascot) come from cdn.acerola.app.
 
 [[resource_sync]]
@@ -20,6 +21,7 @@ description = "Aplica o deploy do hub do Acerola (.komodo/komodo.toml)"
 tags = ["env:hetzner", "app:acerola"]
 [resource_sync.config]
 git_provider = "github.com"
+git_account = "acerola-labs"
 repo = "acerola-labs/acerola"
 branch = "main"
 resource_path = [".komodo/komodo.toml"]
@@ -32,6 +34,7 @@ tags = ["env:hetzner", "app:acerola"]
 [repo.config]
 server = "hetzner"
 git_provider = "github.com"
+git_account = "acerola-labs"
 repo = "acerola-labs/acerola"
 branch = "main"
 webhook_enabled = false
