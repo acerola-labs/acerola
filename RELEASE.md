@@ -1,5 +1,10 @@
 # Versões
 
+## 0.1.1 · 27 nov 2026
+
+- **Deploy:** o Komodo clona o repositório pela conta `acerola-labs`, declarada no `komodo.toml`;
+  a Sync deixa de ficar com uma pendência que tentava remover a conta.
+
 ## 0.1.0 · 27 nov 2026
 
 - **O hub em acerola.app:** a ideia do Acerola, os apps (reader, sync e brand), os princípios e as
