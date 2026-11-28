@@ -37,8 +37,8 @@ Antes de mexer, carregue a skill certa e siga-a:
   `acerola-design` 11.1), com os arquivos do modelo (`reference/locale/`).
 - Os apps e seus links vivem em `lib/data/apps.ts`; o texto de cada um, nas mensagens. Docs e
   downloads seguem o que cada app já publica; sem link próprio, o GitHub.
-- Publicação só pela tag (`site-release.yml` e `site-deploy.yml`); a Procedure do Komodo fica sem
-  webhook. Os dois precisam de `vars.KOMODO_URL` e dos secrets `KOMODO_API_KEY` e `KOMODO_API_SECRET`.
+- O merge da release na `main` publica pelo Komodo (webhook da Procedure); a tag cria a release do
+  GitHub (`site-release.yml`). No GitHub, os dois webhooks do Komodo: Sync e Procedure.
 
 ## Desvios do padrão
 

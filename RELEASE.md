@@ -1,5 +1,10 @@
 # Versões
 
+## 0.2.2 · 28 nov 2026
+
+- **Deploy pelo webhook da Procedure:** o merge da release na `main` publica o site pelo Komodo; a
+  tag cria a release do GitHub. Sai o deploy pela API do Komodo (`site-deploy.yml`).
+
 ## 0.2.1 · 28 nov 2026
 
 - **Publicação pela tag:** a versão sai só pela tag. O `site-release.yml` cria a release do GitHub
