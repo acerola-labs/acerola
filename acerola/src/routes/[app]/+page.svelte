@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ArrowLeft from '@lucide/svelte/icons/arrow-left';
-	import Check from '@lucide/svelte/icons/check';
 	import { resolve } from '$app/paths';
 	import AcerolaLinkCard from '#lib/components/acerola-link-card/acerola-link-card.svelte';
 	import AcerolaSection from '#lib/components/acerola-section/acerola-section.svelte';
@@ -29,10 +28,8 @@
 	</a>
 
 	<div class="mt-8 flex flex-wrap items-start gap-5">
-		<span
-			class="grid size-16 shrink-0 place-items-center rounded-tile bg-primary-soft text-primary"
-		>
-			<app.icon size={30} />
+		<span class="grid size-16 shrink-0 place-items-center rounded-tile bg-surface">
+			<img src={app.logo} alt="" class="size-10" />
 		</span>
 		<div class="grid min-w-0 flex-1 gap-1">
 			<p class="m-0 text-xs font-semibold text-muted-foreground">{app.kind()}</p>
@@ -48,7 +45,13 @@
 	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 		{#each app.get as link, i (link.id)}
 			<AcerolaLinkCard
-				data={{ href: link.href, title: link.title(), text: link.text() }}
+				data={{
+					href: link.href,
+					logo: link.logo,
+					title: link.title(),
+					text: link.text(),
+					action: link.action()
+				}}
 				ui={{ primary: i === 0 }}
 			/>
 		{/each}
@@ -59,12 +62,9 @@
 	<ul class="m-0 grid list-none gap-3 p-0 md:grid-cols-2">
 		{#each app.features as feature, i (i)}
 			<li class="ac-card flex items-start gap-3">
-				<span
-					class="grid size-8 shrink-0 place-items-center rounded-full bg-success-soft text-success"
-				>
-					<Check size={16} />
-				</span>
-				<span class="text-pretty">{feature()}</span>
+				<!-- Told apart by the icon, all in the app's tone (acerola-design, "Ícone em bloco"). -->
+				<span class="ac-icon-tile ac-icon-tile--primary"><feature.icon size={20} /></span>
+				<span class="self-center text-pretty">{feature.text()}</span>
 			</li>
 		{/each}
 	</ul>
@@ -73,7 +73,15 @@
 <AcerolaSection data={{ id: 'more', eyebrow: app.name(), title: m['app.more']() }}>
 	<div class="grid gap-4 sm:grid-cols-2">
 		{#each app.more as link (link.id)}
-			<AcerolaLinkCard data={{ href: link.href, title: link.title(), text: link.text() }} />
+			<AcerolaLinkCard
+				data={{
+					href: link.href,
+					logo: link.logo,
+					title: link.title(),
+					text: link.text(),
+					action: link.action()
+				}}
+			/>
 		{/each}
 	</div>
 </AcerolaSection>
