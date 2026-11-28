@@ -1,5 +1,12 @@
 # Versões
 
+## 0.2.0 · 27 nov 2026
+
+- **Cards que se mostram clicáveis:** os cards dos apps e dos links mostram a ação ("Ver o app",
+  "Baixar o APK", "Ler as docs"…) e a seta no tom da marca, e sobem quando o mouse passa.
+- **Logos:** cada app com o seu logo e cada link com o logo de onde vai (Android, Microsoft Store,
+  GitHub, Acerola).
+
 ## 0.1.1 · 27 nov 2026
 
 - **Deploy:** o Komodo clona o repositório pela conta `acerola-labs`, declarada no `komodo.toml`;

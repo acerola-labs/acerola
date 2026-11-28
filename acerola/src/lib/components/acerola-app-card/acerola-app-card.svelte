@@ -1,40 +1,34 @@
 <script lang="ts">
 	import ArrowRight from '@lucide/svelte/icons/arrow-right';
-	import type { Component } from 'svelte';
 
 	type Props = {
 		data: {
 			href: string;
-			icon: Component;
+			/** The app's logo (brand CDN). */
+			logo: string;
 			name: string;
 			kind: string;
 			tagline: string;
-			/** Accessible name of the link ("Ver Acerola Reader"). */
+			/** The verb at the bottom of the card ("Ver o app"). */
 			action: string;
+			/** Accessible name of the link ("Ver Acerola Reader"). */
+			label: string;
 		};
 	};
 
 	let { data }: Props = $props();
 </script>
 
-<a
-	href={data.href}
-	aria-label={data.action}
-	class="group flex flex-col gap-5 rounded-card bg-card p-5 shadow-lift transition-transform duration-300 ease-brand hover:-translate-y-1"
->
-	<span class="flex items-start justify-between gap-3">
-		<span class="grid size-12 place-items-center rounded-inner bg-primary-soft text-primary">
-			<data.icon size={24} />
-		</span>
-		<span
-			class="grid size-10 place-items-center rounded-full bg-surface transition-colors group-hover:bg-primary group-hover:text-primary-foreground"
-		>
-			<ArrowRight size={18} />
-		</span>
-	</span>
+<!-- Clickable card (acerola-design): the whole card is the link and shows the action at rest. -->
+<a href={data.href} aria-label={data.label} class="ac-card ac-card--link">
+	<span class="ac-icon-tile"><img src={data.logo} alt="" class="size-7" /></span>
 	<span class="grid gap-1">
 		<span class="text-xs font-semibold text-muted-foreground">{data.kind}</span>
 		<span class="text-2xl font-black tracking-tight">{data.name}</span>
 	</span>
 	<span class="text-pretty text-muted-foreground">{data.tagline}</span>
+	<span class="ac-card__action">
+		{data.action}
+		<span class="ac-card__go"><ArrowRight size={18} /></span>
+	</span>
 </a>

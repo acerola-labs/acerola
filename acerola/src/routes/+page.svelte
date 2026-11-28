@@ -123,11 +123,12 @@
 			<AcerolaAppCard
 				data={{
 					href: localizeHref(resolve('/[app]', { app: app.id })),
-					icon: app.icon,
+					logo: app.logo,
 					name: app.name(),
 					kind: app.kind(),
 					tagline: app.tagline(),
-					action: m['home.apps.open']({ name: app.name() })
+					action: m['home.apps.action'](),
+					label: m['home.apps.open']({ name: app.name() })
 				}}
 			/>
 		{/each}
@@ -145,9 +146,8 @@
 	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 		{#each principles as item (item.id)}
 			<article class="ac-card grid content-start gap-3">
-				<span class="grid size-11 place-items-center rounded-inner bg-surface">
-					<item.icon size={20} />
-				</span>
+				<!-- A principle is not an action or a state: neutral icon block (acerola-design). -->
+				<span class="ac-icon-tile"><item.icon size={20} /></span>
 				<h3 class="m-0 text-lg font-black tracking-tight">{item.title()}</h3>
 				<p class="m-0 text-pretty text-muted-foreground">{item.text()}</p>
 			</article>
@@ -167,7 +167,7 @@
 		{#each ideas as idea (idea.id)}
 			<article class="ac-card grid content-start gap-3">
 				<span class="ac-badge ac-badge--info w-fit">
-					<Lightbulb size={14} />{m['nav.ideas']()}
+					<Lightbulb size={16} />{m['nav.ideas']()}
 				</span>
 				<h3 class="m-0 text-lg font-black tracking-tight">{idea.title()}</h3>
 				<p class="m-0 text-pretty text-muted-foreground">{idea.text()}</p>

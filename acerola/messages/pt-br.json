@@ -53,7 +53,8 @@
 			"eyebrow": "Apps",
 			"title": "Um app para cada parte",
 			"lead": "Cada app vive no seu repositório, com as suas docs e os seus downloads. Tudo segue a mesma marca e o mesmo padrão.",
-			"open": "Ver {name}"
+			"open": "Ver {name}",
+			"action": "Ver o app"
 		},
 		"principles": {
 			"eyebrow": "Princípios",
@@ -148,35 +149,43 @@
 		"links": {
 			"docs": {
 				"title": "Documentação",
-				"text": "Como instalar, usar e contribuir."
+				"text": "Como instalar, usar e contribuir.",
+				"action": "Ler as docs"
 			},
 			"github": {
 				"title": "Código no GitHub",
-				"text": "MPL-2.0, aberto para ler e contribuir."
+				"text": "MPL-2.0, aberto para ler e contribuir.",
+				"action": "Ver o código"
 			},
 			"releases": {
 				"title": "GitHub Releases",
-				"text": "Todas as versões, com as notas de cada uma."
+				"text": "Todas as versões, com as notas de cada uma.",
+				"action": "Ver as versões"
 			},
 			"apk": {
 				"title": "Android (APK)",
-				"text": "APK assinado da última versão."
+				"text": "APK assinado da última versão.",
+				"action": "Baixar o APK"
 			},
 			"store": {
 				"title": "Microsoft Store",
-				"text": "Desktop para Windows, assinado pela loja."
+				"text": "Desktop para Windows, assinado pela loja.",
+				"action": "Abrir na loja"
 			},
 			"extension": {
 				"title": "Extensão",
-				"text": "Chrome e Firefox, nos Releases do GitHub."
+				"text": "Chrome e Firefox, nos Releases do GitHub.",
+				"action": "Baixar a extensão"
 			},
 			"site": {
 				"title": "Brand book",
-				"text": "Cores, tipografia, componentes e o padrão."
+				"text": "Cores, tipografia, componentes e o padrão.",
+				"action": "Abrir o brand book"
 			},
 			"kit": {
 				"title": "Downloads da marca",
-				"text": "Kit de projeto, logos, ícones, fontes e CSS."
+				"text": "Kit de projeto, logos, ícones, fontes e CSS.",
+				"action": "Ver os downloads"
 			}
 		}
 	},
