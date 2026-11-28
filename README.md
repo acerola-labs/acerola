@@ -70,7 +70,7 @@ acerola/
 ├── scripts/                  git/ · design/ · i18n/ · release/ (o padrão Acerola)
 ├── .claude/                  settings.json (hooks) · skills/acerola-{design,project,git}
 ├── .komodo/                  deploy no hetzner pelo Komodo
-├── .github/                  site-{tests,release,deploy}.yml · templates de issue e PR · CODEOWNERS · dependabot
+├── .github/                  site-{tests,release}.yml · templates de issue e PR · CODEOWNERS · dependabot
 ├── acerola.config.json       commit.scopes, design e i18n
 └── CLAUDE.md · CONTRIBUTING.md · RELEASE.md · LICENSE · .gitmessage · .editorconfig · lefthook.yml
 ```
@@ -94,22 +94,21 @@ npm run dev                        # http://localhost:5173
 
 ## Publicação
 
-Só a tag de versão `vX.Y.Z` publica (skill `acerola-git`), criada na `main` pelo fluxo de release,
-com a mensagem da versão. Push em branch nunca publica.
+A `main` só recebe o merge da release (skill `acerola-git`), e é esse merge que publica. A tag
+`vX.Y.Z`, com a mensagem da versão, cria a release do GitHub. Push na `develop` nunca publica.
 
-- **Site** ([`site-deploy.yml`](.github/workflows/site-deploy.yml)): a tag roda a Procedure
-  `hetzner_acerola` no Komodo ([`.komodo/`](.komodo/)) pela API
-  (`scripts/release/komodo-deploy.sh`): Pull, Build da imagem `acerola/.config/docker/dockerfile`
-  no próprio hetzner e Deploy no Swarm. O `route.sh` publica o `acerola.caddy` (`acerola.app`, com
-  `www` redirecionando) no Caddy do servidor. Precisa de `vars.KOMODO_URL` e dos secrets
-  `KOMODO_API_KEY` e `KOMODO_API_SECRET`.
-- **Release** ([`site-release.yml`](.github/workflows/site-release.yml)): lint, tipos, design, i18n,
-  testes, build e a release do GitHub com as notas do `RELEASE.md`.
+- **Site:** o push na `main` dispara o webhook da Procedure `hetzner_acerola` no Komodo
+  ([`.komodo/`](.komodo/)): Pull, Build da imagem `acerola/.config/docker/dockerfile` no próprio
+  hetzner e Deploy no Swarm. O `route.sh` publica o `acerola.caddy` (`acerola.app`, com `www`
+  redirecionando) no Caddy do servidor.
+- **Release** ([`site-release.yml`](.github/workflows/site-release.yml)), pela tag: lint, tipos,
+  design, i18n, testes, build e a release do GitHub com as notas do `RELEASE.md`.
 - **Testes** ([`site-tests.yml`](.github/workflows/site-tests.yml)): em todo PR e push na
   `develop` e na `main`.
 
-No Komodo, a Sync `acerola` (branch `main`, arquivo `.komodo/komodo.toml`, webhook só dela: aplica a
-configuração, não publica). DNS: `acerola.app` (A) e `www` (CNAME) para o hetzner, "DNS only".
+No GitHub, dois webhooks para o Komodo (JSON, `push`, segredo de webhook do Komodo): o da Sync
+`acerola`, que aplica o `.komodo/komodo.toml`, e o da Procedure `hetzner_acerola`. DNS:
+`acerola.app` (A) e `www` (CNAME) para o hetzner, "DNS only".
 
 ## Licença
 
