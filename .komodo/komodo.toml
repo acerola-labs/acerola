@@ -8,8 +8,8 @@
 #              acerola:<short commit>-hetzner.
 #   Stack      .komodo/acerola.compose.yml on the hetzner Swarm; komodo.sh runs the deploy steps
 #              and route.sh publishes acerola.caddy (acerola.app) on the server's Caddy.
-#   Procedure  Pull -> Build -> Deploy, run by the version tag: <local>-deploy.yml calls it through
-#              the API (scripts/release/komodo-deploy.sh). No webhook: a push never publishes.
+#   Procedure  Pull -> Build -> Deploy, triggered by the GitHub webhook on push to main (the release
+#              merge): /listener/github/procedure/hetzner_acerola/main.
 #   Action     native Swarm rollback to the previous version.
 #
 # Git account acerola-labs (set in Komodo) clones the organization's repository.
@@ -88,8 +88,8 @@ name = "hetzner_acerola"
 description = "Publica a main do hub do Acerola no hetzner: Pull, Build e Deploy"
 tags = ["env:hetzner", "app:acerola"]
 [procedure.config]
-# No webhook: only the version tag publishes, through <local>-deploy.yml (acerola-git).
-webhook_enabled = false
+# GitHub webhook on push to main: main only gets the release merge, so the release deploys.
+webhook_enabled = true
 
 [[procedure.config.stage]]
 name = "Pull"
