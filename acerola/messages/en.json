@@ -53,7 +53,8 @@
 			"eyebrow": "Apps",
 			"title": "One app for each part",
 			"lead": "Each app lives in its own repository, with its own docs and downloads. All of them follow the same brand and the same standard.",
-			"open": "See {name}"
+			"open": "See {name}",
+			"action": "See the app"
 		},
 		"principles": {
 			"eyebrow": "Principles",
@@ -148,35 +149,43 @@
 		"links": {
 			"docs": {
 				"title": "Documentation",
-				"text": "How to install, use and contribute."
+				"text": "How to install, use and contribute.",
+				"action": "Read the docs"
 			},
 			"github": {
 				"title": "Code on GitHub",
-				"text": "MPL-2.0, open to read and contribute."
+				"text": "MPL-2.0, open to read and contribute.",
+				"action": "See the code"
 			},
 			"releases": {
 				"title": "GitHub Releases",
-				"text": "Every version, with its notes."
+				"text": "Every version, with its notes.",
+				"action": "See the versions"
 			},
 			"apk": {
 				"title": "Android (APK)",
-				"text": "Signed APK of the latest version."
+				"text": "Signed APK of the latest version.",
+				"action": "Download the APK"
 			},
 			"store": {
 				"title": "Microsoft Store",
-				"text": "Windows desktop, signed by the store."
+				"text": "Windows desktop, signed by the store.",
+				"action": "Open in the store"
 			},
 			"extension": {
 				"title": "Extension",
-				"text": "Chrome and Firefox, on the GitHub Releases."
+				"text": "Chrome and Firefox, on the GitHub Releases.",
+				"action": "Download the extension"
 			},
 			"site": {
 				"title": "Brand book",
-				"text": "Colors, typography, components and the standard."
+				"text": "Colors, typography, components and the standard.",
+				"action": "Open the brand book"
 			},
 			"kit": {
 				"title": "Brand downloads",
-				"text": "Project kit, logos, icons, fonts and CSS."
+				"text": "Project kit, logos, icons, fonts and CSS.",
+				"action": "See the downloads"
 			}
 		}
 	},

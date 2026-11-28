@@ -1,9 +1,22 @@
-import BookOpen from '@lucide/svelte/icons/book-open';
+import Bell from '@lucide/svelte/icons/bell';
+import Code from '@lucide/svelte/icons/code';
+import Database from '@lucide/svelte/icons/database';
+import Globe from '@lucide/svelte/icons/globe';
+import LayoutGrid from '@lucide/svelte/icons/layout-grid';
+import Library from '@lucide/svelte/icons/library';
+import ListChecks from '@lucide/svelte/icons/list-checks';
+import Network from '@lucide/svelte/icons/network';
+import Package from '@lucide/svelte/icons/package';
 import Palette from '@lucide/svelte/icons/palette';
 import RefreshCw from '@lucide/svelte/icons/refresh-cw';
+import ScanEye from '@lucide/svelte/icons/scan-eye';
 import type { Component } from 'svelte';
+import AndroidLogo from '#lib/assets/icons/android.svg?component';
+import GithubLogo from '#lib/assets/icons/github.svg?component';
+import MicrosoftStoreLogo from '#lib/assets/icons/microsoft-store.svg?component';
 import { m } from '#lib/paraglide/messages.js';
 import type { Locale } from '#lib/paraglide/runtime.js';
+import { brandUrl } from '#lib/utils/brand.util.ts';
 import type { AppId } from './app-ids.ts';
 
 export { APP_IDS, type AppId } from './app-ids.ts';
@@ -14,22 +27,35 @@ export { APP_IDS, type AppId } from './app-ids.ts';
  */
 export type Message = (inputs?: Record<string, never>, options?: { locale?: Locale }) => string;
 
+/**
+ * The logo of where a link goes: a third-party mark as a .svg file (src/lib/assets/icons,
+ * imported with ?component) or an Acerola logo from the brand CDN. Never recolored.
+ */
+export type Logo = { component: Component } | { src: string };
+
 export type AppLink = {
 	/** Stable key, also the anchor of the link card. */
 	id: string;
 	href: string;
+	logo: Logo;
 	title: Message;
 	text: Message;
+	/** The verb at the bottom of the card ("Baixar o APK"). */
+	action: Message;
 };
+
+export type AppFeature = { icon: Component; text: Message };
 
 export type App = {
 	id: AppId;
-	icon: Component;
+	/** The app's own logo, from the brand CDN. */
+	logo: string;
 	name: Message;
 	kind: Message;
 	tagline: Message;
 	lead: Message;
-	features: Message[];
+	/** Told apart by the icon, all in the same tone: a list item has no meaning of its own. */
+	features: AppFeature[];
 	/** Where people get it: downloads or the site itself. The first one is the main action. */
 	get: AppLink[];
 	/** Docs and code. */
@@ -38,23 +64,35 @@ export type App = {
 
 const GITHUB = 'https://github.com/acerola-labs';
 
-const docs = (href: string): AppLink => ({
+const LOGO = {
+	reader: brandUrl('/logo/acerola-logo-foreground.svg'),
+	sync: brandUrl('/logo/acerola-logo-sync.svg'),
+	brand: brandUrl('/logo/acerola-logo-foreground.svg')
+};
+
+const docs = (href: string, logo: string): AppLink => ({
 	id: 'docs',
 	href,
+	logo: { src: logo },
 	title: m['app.links.docs.title'],
-	text: m['app.links.docs.text']
+	text: m['app.links.docs.text'],
+	action: m['app.links.docs.action']
 });
 const github = (repo: string): AppLink => ({
 	id: 'github',
 	href: `${GITHUB}/${repo}`,
+	logo: { component: GithubLogo },
 	title: m['app.links.github.title'],
-	text: m['app.links.github.text']
+	text: m['app.links.github.text'],
+	action: m['app.links.github.action']
 });
 const releases = (repo: string): AppLink => ({
 	id: 'releases',
 	href: `${GITHUB}/${repo}/releases`,
+	logo: { component: GithubLogo },
 	title: m['app.links.releases.title'],
-	text: m['app.links.releases.text']
+	text: m['app.links.releases.text'],
+	action: m['app.links.releases.action']
 });
 
 /**
@@ -66,86 +104,97 @@ const releases = (repo: string): AppLink => ({
 export const APPS: App[] = [
 	{
 		id: 'reader',
-		icon: BookOpen,
+		logo: LOGO.reader,
 		name: m['apps.reader.name'],
 		kind: m['apps.reader.kind'],
 		tagline: m['apps.reader.tagline'],
 		lead: m['apps.reader.lead'],
 		features: [
-			m['apps.reader.features.library'],
-			m['apps.reader.features.sync'],
-			m['apps.reader.features.relay'],
-			m['apps.reader.features.open']
+			{ icon: Library, text: m['apps.reader.features.library'] },
+			{ icon: RefreshCw, text: m['apps.reader.features.sync'] },
+			{ icon: Network, text: m['apps.reader.features.relay'] },
+			{ icon: Code, text: m['apps.reader.features.open'] }
 		],
 		get: [
 			{
 				id: 'apk',
 				href: 'https://docs.reader.acerola.app/api/apk-latest',
+				logo: { component: AndroidLogo },
 				title: m['app.links.apk.title'],
-				text: m['app.links.apk.text']
+				text: m['app.links.apk.text'],
+				action: m['app.links.apk.action']
 			},
 			{
 				id: 'store',
 				href: 'https://apps.microsoft.com/store/detail/9N9SL3P7F8GC?cid=DevShareMCLPCS',
+				logo: { component: MicrosoftStoreLogo },
 				title: m['app.links.store.title'],
-				text: m['app.links.store.text']
+				text: m['app.links.store.text'],
+				action: m['app.links.store.action']
 			},
 			releases('acerola-reader')
 		],
-		more: [docs('https://docs.reader.acerola.app'), github('acerola-reader')]
+		more: [docs('https://docs.reader.acerola.app', LOGO.reader), github('acerola-reader')]
 	},
 	{
 		id: 'sync',
-		icon: RefreshCw,
+		logo: LOGO.sync,
 		name: m['apps.sync.name'],
 		kind: m['apps.sync.kind'],
 		tagline: m['apps.sync.tagline'],
 		lead: m['apps.sync.lead'],
 		features: [
-			m['apps.sync.features.tracking'],
-			m['apps.sync.features.sites'],
-			m['apps.sync.features.mirror'],
-			m['apps.sync.features.notify']
+			{ icon: ScanEye, text: m['apps.sync.features.tracking'] },
+			{ icon: Globe, text: m['apps.sync.features.sites'] },
+			{ icon: Database, text: m['apps.sync.features.mirror'] },
+			{ icon: Bell, text: m['apps.sync.features.notify'] }
 		],
 		get: [
 			{
+				// The extension ships in the GitHub Releases (Chrome and Firefox zips).
 				id: 'extension',
 				href: `${GITHUB}/acerola-sync/releases`,
+				logo: { component: GithubLogo },
 				title: m['app.links.extension.title'],
-				text: m['app.links.extension.text']
+				text: m['app.links.extension.text'],
+				action: m['app.links.extension.action']
 			}
 		],
 		// No docs site yet: the docs live in the repository.
-		more: [docs(`${GITHUB}/acerola-sync#readme`), github('acerola-sync')]
+		more: [docs(`${GITHUB}/acerola-sync#readme`, LOGO.sync), github('acerola-sync')]
 	},
 	{
 		id: 'brand',
-		icon: Palette,
+		logo: LOGO.brand,
 		name: m['apps.brand.name'],
 		kind: m['apps.brand.kind'],
 		tagline: m['apps.brand.tagline'],
 		lead: m['apps.brand.lead'],
 		features: [
-			m['apps.brand.features.tokens'],
-			m['apps.brand.features.components'],
-			m['apps.brand.features.standard'],
-			m['apps.brand.features.kit']
+			{ icon: Palette, text: m['apps.brand.features.tokens'] },
+			{ icon: LayoutGrid, text: m['apps.brand.features.components'] },
+			{ icon: ListChecks, text: m['apps.brand.features.standard'] },
+			{ icon: Package, text: m['apps.brand.features.kit'] }
 		],
 		get: [
 			{
 				id: 'site',
 				href: 'https://brand.acerola.app/',
+				logo: { src: LOGO.brand },
 				title: m['app.links.site.title'],
-				text: m['app.links.site.text']
+				text: m['app.links.site.text'],
+				action: m['app.links.site.action']
 			},
 			{
 				id: 'kit',
 				href: 'https://brand.acerola.app/#downloads',
+				logo: { src: LOGO.brand },
 				title: m['app.links.kit.title'],
-				text: m['app.links.kit.text']
+				text: m['app.links.kit.text'],
+				action: m['app.links.kit.action']
 			}
 		],
-		more: [docs(`${GITHUB}/acerola-brand/tree/main/docs`), github('acerola-brand')]
+		more: [docs(`${GITHUB}/acerola-brand/tree/main/docs`, LOGO.brand), github('acerola-brand')]
 	}
 ];
 

@@ -14,6 +14,16 @@ describe('APPS', () => {
 		}
 	});
 
+	it('gives every link an action and the logo of where it goes', () => {
+		for (const app of APPS) {
+			expect(app.logo.startsWith('https://cdn.acerola.app/brand/logo/')).toBe(true);
+			for (const link of [...app.get, ...app.more]) {
+				expect(link.action({}, { locale: 'pt-br' }).length).toBeGreaterThan(0);
+				expect('component' in link.logo || link.logo.src.startsWith('https://')).toBe(true);
+			}
+		}
+	});
+
 	it('only links to https addresses', () => {
 		for (const link of APPS.flatMap((app) => [...app.get, ...app.more])) {
 			expect(link.href.startsWith('https://')).toBe(true);
@@ -28,7 +38,7 @@ describe('APPS', () => {
 					app.kind,
 					app.tagline,
 					app.lead,
-					...app.features
+					...app.features.map((feature) => feature.text)
 				]) {
 					expect(message({}, { locale }).length).toBeGreaterThan(0);
 				}

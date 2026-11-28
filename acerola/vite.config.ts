@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
+import svg from '@poppanator/sveltekit-svg';
 import { APP_IDS } from './src/lib/data/app-ids.ts';
 import { paraglide } from './paraglide.config.ts';
 
@@ -14,6 +15,12 @@ export default defineConfig({
 	define: { __SITE_URL__: JSON.stringify(siteUrl) },
 	plugins: [
 		tailwindcss(),
+		// Third-party logos (Android, Microsoft Store, GitHub) are .svg files in src/lib/assets,
+		// imported with ?component; never SVG written in the code (acerola-design).
+		svg({
+			includePaths: ['./src/lib/assets/'],
+			svgoOptions: { multipass: true, plugins: ['preset-default'] }
+		}),
 		sveltekit({
 			compilerOptions: {
 				// Runes across the project, except in libraries. Can go away with Svelte 6.
