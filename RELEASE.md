@@ -1,5 +1,11 @@
 # Versões
 
+## 0.2.1 · 28 nov 2026
+
+- **Publicação pela tag:** a versão sai só pela tag. O `site-release.yml` cria a release do GitHub
+  e o `site-deploy.yml` publica pelo Komodo; push na `main` não publica mais.
+- **Tags com a mensagem da versão**, no lugar do formato de commit.
+
 ## 0.2.0 · 27 nov 2026
 
 - **Cards que se mostram clicáveis:** os cards dos apps e dos links mostram a ação ("Ver o app",
